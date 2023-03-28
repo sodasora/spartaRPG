@@ -291,7 +291,7 @@ while True:
                 continue
 
         elif num == 2:
-            if ch.mp == 0 and ch.hp == 0:
+            if ch.hp == 0:
                 print("당신이 패배했습니다. 전투를 종료합니다.")
                 break
             elif monster.hp == 0:
