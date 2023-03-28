@@ -19,13 +19,13 @@ class Monster:
         if other.hp == 0:
             print(f"당신이 패배했습니다.")
 
-    def magic_attack(self, other):
-        magic_damage = random.randint(self.power - 2, self.power + 2)
-        other.mp = max(other.mp - magic_damage, 0)
-
-        print(f"{self.name}의 공격! {other.name}에게 {magic_damage}의 데미지를 입혔습니다.")
-        if other.mp == 0:
-            print(f"당신이 패배했습니다.")
+    # def magic_attack(self, other):
+    #     magic_damage = random.randint(self.power - 2, self.power + 2)
+    #     other.mp = max(other.mp - magic_damage, 0)
+    #
+    #     print(f"{self.name}의 공격! {other.name}에게 {magic_damage}의 데미지를 입혔습니다.")
+    #     if other.mp == 0:
+    #         print(f"당신이 패배했습니다.")
 
     def show_status(self):
 
@@ -83,10 +83,10 @@ class Magician(Character):
         return "{}로 전직했습니다.".format(self.job)
 
     def jattack(self):
-        print("마법사 공격: 에너지 볼트  ")
+        print("마법사 공격: [에너지 볼트]  ")
 
     def skill(self):
-        print("스킬: 메테오")
+        print("스킬: [메테오]")
 
 
 # 기사 클래스
@@ -100,10 +100,10 @@ class Knight(Character):
         return "{}로 전직했습니다.".format(self.job)
 
     def jattack(self):
-        print("기사 공격: 삼단 베기  ")
+        print("기사 공격: [삼단 베기]  ")
 
     def skill(self):
-        print("스킬: 발도")
+        print("스킬: [발도]")
 
 
 # 도적 클래스
@@ -151,8 +151,8 @@ while True:
         while True:
             hp = random.randrange(100, 150)
             power = random.randrange(8, 30)
-            mp = random.randrange(100, 150)
-            magic_power = random.randrange(8, 30)
+            mp = random.randrange(50, 100)
+            magic_power = random.randrange(3, 8)
             job = "평민"
 
             print(f"hp = {hp}, power = {power} , mp = {mp}, magic_power= {magic_power} ")
@@ -220,6 +220,7 @@ while True:
                 ch.jattack()
                 ch.skill()
                 continue
+
         elif number == 2:
             #전직 한번만 가능하도록 설정
             if ch.job == "기사":
@@ -277,7 +278,7 @@ while True:
             ch.show_status()
             monster.show_status()
 
-            if ch.hp == 0:
+            if (ch.hp == 0 and mp == 0):
                 print("당신이 패배했습니다. 전투를 종료합니다.")
                 break
             elif monster.hp == 0:
@@ -288,19 +289,23 @@ while True:
 
         elif num == 2:
             ch.magic_attack(monster)
-            monster.magic_attack(ch)
+            monster.attack(ch)
             ch.show_status()
             monster.show_status()
-            if ch.mp == 0:
+            if (ch.mp == 0 and ch.hp == 0):
                 print("당신이 패배했습니다. 전투를 종료합니다.")
                 break
             elif monster.hp == 0:
                 print("당신이 승리했습니다. 전투를 종료합니다. ")
                 break
-            continue
+            elif ch.mp == 0 or ch.hp == 0:
+                continue
+            else:
+                continue
     # 5번 플레이어 정보 보기 선택했을 때
     elif ans == 5:
         print("플레이어 이름: ", ch.name)
+        print("직업: ",ch.job)
         print("hp:" , ch.hp)
         print("mp: ", ch.mp)
         print("attack: ")
