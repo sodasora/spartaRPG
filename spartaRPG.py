@@ -200,14 +200,18 @@ while True:
         number = int(input("→   "))
 
         if number == 1:
+            # 전직 한번만 가능하도록 설정
             if ch.job == "마법사" :
+                print("이미 [마법사]로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "도적":
+                print("이미 [도적]으로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "기사":
                 print("이미 [기사]로 전직 했습니다.")
+                print("전직은 한번만 가능합니다.")
                 continue
             else:
                 job = "기사"
@@ -219,13 +223,16 @@ while True:
         elif number == 2:
             #전직 한번만 가능하도록 설정
             if ch.job == "기사":
+                print("이미 [기사]로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "마법사":
+                print("이미 [마법사]로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "도적":
                 print("이미 [도적]으로 전직 했습니다.")
+                print("전직은 한번만 가능합니다.")
             else:
                 job = "도적"
                 ch = Thief(name, hp, power, mp, magic_power, job)
@@ -234,14 +241,18 @@ while True:
                 ch.skill()
                 continue
         elif number == 3:
+            # 전직 한번만 가능하도록 설정
             if ch.job == "기사":
+                print("이미 [기사]로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "도적":
+                print("이미 [도적]으로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "마법사":
                 print("이미 [마법사]로 전직했습니다.")
+                print("전직은 한번만 가능합니다.")
                 continue
             else:
                 job = "마법사"
