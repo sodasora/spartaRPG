@@ -196,75 +196,103 @@ while True:
         monster = Monster(m_name, m_hp, m_power)
     # 3번 선택했을 때
     elif ans == 3:
-        print("전직할 직업을 골라주세요.")
-        print("1. 기사  2. 도적  3. 마법사")
-        number = int(input("→   "))
-
-        if number == 1:
-            # 전직 한번만 가능하도록 설정
-            if ch.job == "마법사" :
-                print("이미 [마법사]로 전직했습니다.")
-                print("전직은 한번만 가능합니다.")
-                continue
-            elif ch.job == "도적":
-                print("이미 [도적]으로 전직했습니다.")
-                print("전직은 한번만 가능합니다.")
-                continue
-            elif ch.job == "기사":
-                print("이미 [기사]로 전직 했습니다.")
-                print("전직은 한번만 가능합니다.")
-                continue
-            else:
+        if ch.job == "평민" :
+            print("전직할 직업을 골라주세요.")
+            print("1. 기사  2. 도적  3. 마법사")
+            number = int(input("→   "))
+            if number == 1:
                 job = "기사"
                 ch = Knight(name, hp, power, mp, magic_power, job)
                 ch.get_JOB()
                 ch.jattack()
                 ch.skill()
                 continue
-
-        elif number == 2:
-            #전직 한번만 가능하도록 설정
-            if ch.job == "기사":
-                print("이미 [기사]로 전직했습니다.")
-                print("전직은 한번만 가능합니다.")
-                continue
-            elif ch.job == "마법사":
-                print("이미 [마법사]로 전직했습니다.")
-                print("전직은 한번만 가능합니다.")
-                continue
-            elif ch.job == "도적":
-                print("이미 [도적]으로 전직 했습니다.")
-                print("전직은 한번만 가능합니다.")
-            else:
+            elif number == 2:
                 job = "도적"
                 ch = Thief(name, hp, power, mp, magic_power, job)
                 ch.get_JOB()
                 ch.jattack()
                 ch.skill()
                 continue
-        elif number == 3:
-            # 전직 한번만 가능하도록 설정
-            if ch.job == "기사":
-                print("이미 [기사]로 전직했습니다.")
-                print("전직은 한번만 가능합니다.")
-                continue
-            elif ch.job == "도적":
-                print("이미 [도적]으로 전직했습니다.")
-                print("전직은 한번만 가능합니다.")
-                continue
-            elif ch.job == "마법사":
-                print("이미 [마법사]로 전직했습니다.")
-                print("전직은 한번만 가능합니다.")
-                continue
-            else:
+            elif number == 3:
                 job = "마법사"
                 ch = Magician(name, hp, power, mp, magic_power, job)
                 ch.get_JOB()
                 ch.jattack()
                 ch.skill()
                 continue
+            else:
+                print("번호를 다시 선택해주세요.")
         else:
-            print("번호를 다시 선택해주세요.")
+            print(f"이미 [{ch.job}]로 전직했습니다.")
+            print("전직은 한번만 가능합니다.")
+            continue
+            
+        # if number == 1:
+        #     # 전직 한번만 가능하도록 설정
+        #     if ch.job == "마법사" :
+        #         print("이미 [마법사]로 전직했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #         continue
+        #     elif ch.job == "도적":
+        #         print("이미 [도적]으로 전직했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #         continue
+        #     elif ch.job == "기사":
+        #         print("이미 [기사]로 전직 했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #         continue
+        #     else:
+        #         job = "기사"
+        #         ch = Knight(name, hp, power, mp, magic_power, job)
+        #         ch.get_JOB()
+        #         ch.jattack()
+        #         ch.skill()
+        #         continue
+
+        # elif number == 2:
+        #     #전직 한번만 가능하도록 설정
+        #     if ch.job == "기사":
+        #         print("이미 [기사]로 전직했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #         continue
+        #     elif ch.job == "마법사":
+        #         print("이미 [마법사]로 전직했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #         continue
+        #     elif ch.job == "도적":
+        #         print("이미 [도적]으로 전직 했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #     else:
+        #         job = "도적"
+        #         ch = Thief(name, hp, power, mp, magic_power, job)
+        #         ch.get_JOB()
+        #         ch.jattack()
+        #         ch.skill()
+        #         continue
+        # elif number == 3:
+        #     # 전직 한번만 가능하도록 설정
+        #     if ch.job == "기사":
+        #         print("이미 [기사]로 전직했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #         continue
+        #     elif ch.job == "도적":
+        #         print("이미 [도적]으로 전직했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #         continue
+        #     elif ch.job == "마법사":
+        #         print("이미 [마법사]로 전직했습니다.")
+        #         print("전직은 한번만 가능합니다.")
+        #         continue
+        #     else:
+        #         job = "마법사"
+        #         ch = Magician(name, hp, power, mp, magic_power, job)
+        #         ch.get_JOB()
+        #         ch.jattack()
+        #         ch.skill()
+        #         continue
+        # else:
+        #     print("번호를 다시 선택해주세요.")
     # 4번 전투하기 선택했을 떄
     elif ans == 4:
         print("전투를 시작합니다.")
