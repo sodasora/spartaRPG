@@ -37,7 +37,7 @@ class Character:
     모든 캐릭터의 모체가 되는 클래스
     """
 
-    def __init__(self, name, hp, power, mp, magic_power):
+    def __init__(self, name, hp, power, mp, magic_power,job):
         self.name = name
         self.max_hp = hp
         self.hp = hp
@@ -45,6 +45,7 @@ class Character:
         self.max_mp = mp
         self.mp = mp
         self.magic_power = magic_power
+        self.job = job
 
     def attack(self, other):
         damage = random.randint(self.power - 2, self.power + 2)
@@ -74,7 +75,7 @@ class Character:
 # 마법사 클래스
 class Magician(Character):
     def __init__(self, name, hp, power, mp, magic_power, job):
-        super().__init__(name, hp, power, mp, magic_power)
+        super().__init__(name, hp, power, mp, magic_power,job)
         self.job = job
 
     def get_JOB(self):
@@ -91,7 +92,7 @@ class Magician(Character):
 # 기사 클래스
 class Knight(Character):
     def __init__(self, name, hp, power, mp, magic_power, job):
-        super().__init__(name, hp, power, mp, magic_power)
+        super().__init__(name, hp, power, mp, magic_power,job)
         self.job = job
 
     def get_JOB(self):
@@ -108,7 +109,7 @@ class Knight(Character):
 # 도적 클래스
 class Thief(Character):
     def __init__(self, name, hp, power, mp, magic_power, job):
-        super().__init__(name, hp, power, mp, magic_power)
+        super().__init__(name, hp, power, mp, magic_power,job)
         self.job = job
 
     def get_JOB(self):
@@ -152,6 +153,7 @@ while True:
             power = random.randrange(8, 30)
             mp = random.randrange(100, 150)
             magic_power = random.randrange(8, 30)
+            job = "평민"
 
             print(f"hp = {hp}, power = {power} , mp = {mp}, magic_power= {magic_power} ")
             print(" 스텟을 다시 부여받겠습니까? y = 네, n = 아니오")
@@ -165,7 +167,7 @@ while True:
               hp = {hp}  power = {power} mp = {mp} magic_power= {magic_power} 
             """)
                 break
-        ch = Character(name, hp, power, mp, magic_power)
+        ch = Character(name, hp, power, mp, magic_power,job)
         print(ch.name)
         ch.show_status()
     # 2번 선택했을 때
@@ -196,31 +198,58 @@ while True:
         print("전직할 직업을 골라주세요.")
         print("1. 기사  2. 도적  3. 마법사")
         number = int(input("→   "))
-        if number == 1:
-            j = "기사"
 
-            ch = Knight(name, hp, power, mp, magic_power, j)
-            #  j가 저장되는 이유: 상속에서 상위 클래스는 어디서 파생된건지 알고있기 때문에 하위클래스 접근이 가능
-            ch.get_JOB()
-            ch.jattack()
-            ch.skill()
-            continue
+        if number == 1:
+            if ch.job == "마법사" :
+                print("전직은 한번만 가능합니다.")
+                continue
+            elif ch.job == "도적":
+                print("전직은 한번만 가능합니다.")
+                continue
+            elif ch.job == "기사":
+                print("이미 [기사]로 전직 했습니다.")
+                continue
+            else:
+                job = "기사"
+                ch = Knight(name, hp, power, mp, magic_power, job)
+                ch.get_JOB()
+                ch.jattack()
+                ch.skill()
+                continue
         elif number == 2:
-            j = '도적'
-            ch = Thief(name, hp, power, mp, magic_power, j)
-            #  j가 저장되는 이유: 상속에서 상위 클래스는 어디서 파생된건지 알고있기 때문에 하위클래스 접근이 가능
-            ch.get_JOB()
-            ch.jattack()
-            ch.skill()
-            continue
+            #전직 한번만 가능하도록 설정
+            if ch.job == "기사":
+                print("전직은 한번만 가능합니다.")
+                continue
+            elif ch.job == "마법사":
+                print("전직은 한번만 가능합니다.")
+                continue
+            elif ch.job == "도적":
+                print("이미 [도적]으로 전직 했습니다.")
+            else:
+                job = "도적"
+                ch = Thief(name, hp, power, mp, magic_power, job)
+                ch.get_JOB()
+                ch.jattack()
+                ch.skill()
+                continue
         elif number == 3:
-            j = '마법사'
-            ch = Magician(name, hp, power, mp, magic_power, j)
-            #  j가 저장되는 이유: 상속에서 상위 클래스는 어디서 파생된건지 알고있기 때문에 하위클래스 접근이 가능
-            ch.get_JOB()
-            ch.jattack()
-            ch.skill()
-            continue
+            if ch.job == "기사":
+                print("전직은 한번만 가능합니다.")
+                continue
+            elif ch.job == "도적":
+                print("전직은 한번만 가능합니다.")
+                continue
+            elif ch.job == "마법사":
+                print("이미 [마법사]로 전직했습니다.")
+                continue
+            else:
+                job = "마법사"
+                ch = Magician(name, hp, power, mp, magic_power, job)
+                ch.get_JOB()
+                ch.jattack()
+                ch.skill()
+                continue
         else:
             print("번호를 다시 선택해주세요.")
     # 4번 전투하기 선택했을 떄
