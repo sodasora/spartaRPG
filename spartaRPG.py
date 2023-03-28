@@ -16,7 +16,7 @@ class Monster:
         damage = random.randint(self.power - 2, self.power + 2)
         other.hp = max(other.hp - damage, 0)
         print(f"{self.name}의 공격! {other.name}에게 {damage}의 데미지를 입혔습니다.")
-        if other.hp == 0 and other.mp == 0:
+        if other.hp == 0 :
             print(f"현재 HP: 0, MP:0 ")
 
 
@@ -47,15 +47,14 @@ class Character:
         damage = random.randint(self.power - 2, self.power + 2)
         other.hp = max(other.hp - damage, 0)
         print(f"{self.name}의 공격! {other.name}에게 {damage}의 데미지를 입혔습니다.")
-
-        #
         if other.hp == 0:
             print(f"{other.name}이(가) 쓰러졌습니다. ")
     # 마법공격 사용시, mp는 1씩 줄어들게 하기
     def magic_attack(self, other):
         damage = random.randint(self.magic_power - 2, self.magic_power + 2)
         other.hp = max(other.hp - damage, 0)
-        print(f"{self.name}의 공격! {other.name}에게 {damage}의 데미지를 입혔습니다.")
+        print(f"{self.name}의 마법공격! {other.name}에게 {damage}의 데미지를 입혔습니다. ")
+        print("마법공격을 써서 mp가 1 줄어듭니다.")
         #mp 1씩 줄어들도록 설정함
         self.mp -= 1
         if other.hp == 0:
@@ -275,7 +274,7 @@ while True:
         if num == 1:
             # hp 또는 mp가 0일 때 전투 종료하도록 만듦
             # Character의 attack 함수를 종료시킬 방법 중 최선으로 생각해냄
-            if ch.hp == 0 and mp == 0:
+            if ch.hp == 0:
                 print("당신이 패배했습니다. 전투를 종료합니다.")
                 break
             elif monster.hp == 0:
