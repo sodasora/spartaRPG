@@ -1,6 +1,5 @@
 import random
 
-
 class Monster:
     """
      몬스터의 클래스
@@ -12,20 +11,14 @@ class Monster:
         self.hp = hp
         self.power = power
 
+    # attack 함수 실행부에서 break 되도록 하고 싶은데 불가능
     def attack(self, other):
         damage = random.randint(self.power - 2, self.power + 2)
         other.hp = max(other.hp - damage, 0)
         print(f"{self.name}의 공격! {other.name}에게 {damage}의 데미지를 입혔습니다.")
-        if other.hp == 0:
-            print(f"당신이 패배했습니다.")
+        if other.hp == 0 and other.mp == 0:
+            print(f"현재 HP: 0, MP:0 ")
 
-    def magic_attack(self, other):
-        magic_damage = random.randint(self.power - 2, self.power + 2)
-        other.mp = max(other.mp - magic_damage, 0)
-
-        print(f"{self.name}의 공격! {other.name}에게 {magic_damage}의 데미지를 입혔습니다.")
-        if other.mp == 0:
-            print(f"당신이 패배했습니다.")
 
     def show_status(self):
 
@@ -33,9 +26,11 @@ class Monster:
 
 
 class Character:
+
     """
     모든 캐릭터의 모체가 되는 클래스
     """
+
 
     def __init__(self, name, hp, power, mp, magic_power,job):
         self.name = name
@@ -47,27 +42,31 @@ class Character:
         self.magic_power = magic_power
         self.job = job
 
+    # attack 함수 실행부에서 break 되도록 하고 싶은데 불가능
     def attack(self, other):
         damage = random.randint(self.power - 2, self.power + 2)
         other.hp = max(other.hp - damage, 0)
         print(f"{self.name}의 공격! {other.name}에게 {damage}의 데미지를 입혔습니다.")
 
+        #
         if other.hp == 0:
-            print(f"{other.name}이(가) 쓰러졌습니다. 당신이 승리했습니다! ")
-
+            print(f"{other.name}이(가) 쓰러졌습니다. ")
+    # 마법공격 사용시, mp는 1씩 줄어들게 하기
     def magic_attack(self, other):
         damage = random.randint(self.magic_power - 2, self.magic_power + 2)
         other.hp = max(other.hp - damage, 0)
         print(f"{self.name}의 공격! {other.name}에게 {damage}의 데미지를 입혔습니다.")
+        #mp 1씩 줄어들도록 설정함
+        self.mp -= 1
         if other.hp == 0:
-            print(f"{other.name}이(가) 쓰러졌습니다. 당신이 승리했습니다! ")
-
+            print(f"{other.name}이(가) 쓰러졌습니다. ")
     def jattack(self):
         print("기본 공격")
     def skill(self):
         print("기본 스킬")
     def show_status(self):
         print(f"{self.name}의 상태: HP {self.hp}/{self.max_hp} MP {self.mp}/{self.max_mp}")
+
 
 
 # 캐릭터와 상속 관계에 있는 클래스 3개 만들기 (기사, 마법사, 도적)
@@ -83,10 +82,11 @@ class Magician(Character):
         return "{}로 전직했습니다.".format(self.job)
 
     def jattack(self):
-        print("마법사 공격: 에너지 볼트  ")
+        print("마법사 공격: [에너지 볼트]  ")
 
     def skill(self):
-        print("스킬: 메테오")
+        print("스킬: [메테오]")
+
 
 
 # 기사 클래스
@@ -100,17 +100,17 @@ class Knight(Character):
         return "{}로 전직했습니다.".format(self.job)
 
     def jattack(self):
-        print("기사 공격: 삼단 베기  ")
+        print("기사 공격: [삼단 베기]  ")
 
     def skill(self):
-        print("스킬: 발도")
+        print("스킬: [발도]")
 
 
 # 도적 클래스
 class Thief(Character):
     def __init__(self, name, hp, power, mp, magic_power, job):
         super().__init__(name, hp, power, mp, magic_power,job)
-        self.job = job
+        self.job
 
     def get_JOB(self):
         print("도둑으로 전직했습니다.")
@@ -121,6 +121,8 @@ class Thief(Character):
 
     def skill(self):
         print("스킬: 세비지 블로우")
+
+
 
 
 # ------------살향부 시작
@@ -151,8 +153,8 @@ while True:
         while True:
             hp = random.randrange(100, 150)
             power = random.randrange(8, 30)
-            mp = random.randrange(100, 150)
-            magic_power = random.randrange(8, 30)
+            mp = random.randrange(50, 100)
+            magic_power = random.randrange(3, 8)
             job = "평민"
 
             print(f"hp = {hp}, power = {power} , mp = {mp}, magic_power= {magic_power} ")
@@ -200,14 +202,18 @@ while True:
         number = int(input("→   "))
 
         if number == 1:
+            # 전직 한번만 가능하도록 설정
             if ch.job == "마법사" :
+                print("이미 [마법사]로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "도적":
+                print("이미 [도적]으로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "기사":
                 print("이미 [기사]로 전직 했습니다.")
+                print("전직은 한번만 가능합니다.")
                 continue
             else:
                 job = "기사"
@@ -216,16 +222,20 @@ while True:
                 ch.jattack()
                 ch.skill()
                 continue
+
         elif number == 2:
             #전직 한번만 가능하도록 설정
             if ch.job == "기사":
+                print("이미 [기사]로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "마법사":
+                print("이미 [마법사]로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "도적":
                 print("이미 [도적]으로 전직 했습니다.")
+                print("전직은 한번만 가능합니다.")
             else:
                 job = "도적"
                 ch = Thief(name, hp, power, mp, magic_power, job)
@@ -234,14 +244,18 @@ while True:
                 ch.skill()
                 continue
         elif number == 3:
+            # 전직 한번만 가능하도록 설정
             if ch.job == "기사":
+                print("이미 [기사]로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "도적":
+                print("이미 [도적]으로 전직했습니다.")
                 print("전직은 한번만 가능합니다.")
                 continue
             elif ch.job == "마법사":
                 print("이미 [마법사]로 전직했습니다.")
+                print("전직은 한번만 가능합니다.")
                 continue
             else:
                 job = "마법사"
@@ -259,37 +273,41 @@ while True:
 
         num = int(input())
         if num == 1:
-            ch.jattack()
-            ch.skill()
-            ch.attack(monster)
-            monster.attack(ch)
-            ch.show_status()
-            monster.show_status()
+            # hp 또는 mp가 0일 때 전투 종료하도록 만듦
+            # Character의 attack 함수를 종료시킬 방법 중 최선으로 생각해냄
+            if ch.hp == 0 and mp == 0:
+                print("당신이 패배했습니다. 전투를 종료합니다.")
+                break
+            elif monster.hp == 0:
+                print("당신이 승리했습니다. 전투를 종료합니다. ")
+                break
 
-            if ch.hp == 0:
+            else:
+                ch.jattack()
+                ch.skill()
+                ch.attack(monster)
+                monster.attack(ch)
+                ch.show_status()
+                monster.show_status()
+                continue
+
+        elif num == 2:
+            if ch.mp == 0 and ch.hp == 0:
                 print("당신이 패배했습니다. 전투를 종료합니다.")
                 break
             elif monster.hp == 0:
                 print("당신이 승리했습니다. 전투를 종료합니다. ")
                 break
             else:
+                ch.magic_attack(monster)
+                monster.attack(ch)
+                ch.show_status()
+                monster.show_status()
                 continue
-
-        elif num == 2:
-            ch.magic_attack(monster)
-            monster.magic_attack(ch)
-            ch.show_status()
-            monster.show_status()
-            if ch.mp == 0:
-                print("당신이 패배했습니다. 전투를 종료합니다.")
-                break
-            elif monster.hp == 0:
-                print("당신이 승리했습니다. 전투를 종료합니다. ")
-                break
-            continue
     # 5번 플레이어 정보 보기 선택했을 때
     elif ans == 5:
         print("플레이어 이름: ", ch.name)
+        print("직업: ",ch.job)
         print("hp:" , ch.hp)
         print("mp: ", ch.mp)
         print("attack: ")
