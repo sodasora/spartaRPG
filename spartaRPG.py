@@ -1,5 +1,6 @@
 import random
 
+
 class Monster:
     """
      몬스터의 클래스
@@ -11,28 +12,40 @@ class Monster:
         self.hp = hp
         self.power = power
 
+
     # attack 함수 실행부에서 break 되도록 하고 싶은데 불가능
     def attack(self, other):
         damage = random.randint(self.power - 2, self.power + 2)
         other.hp = max(other.hp - damage, 0)
         print(f"{self.name}의 공격! {other.name}에게 {damage}의 데미지를 입혔습니다.")
-        if other.hp == 0 :
+        if other.hp == 0:
             print(f"현재 HP: 0, MP:0 ")
 
-
     def show_status(self):
-
         print(f"{self.name}의 상태: HP {self.hp}/{self.max_hp} ")
 
 
-class Character:
+    def __str__(self):
+        return "{}\t{}\t{}".format(
+            self.name,
+            self.max_hp,
+            self.power
+        )
 
+
+# 몬스터 도감 만들기 (리스트 활용)
+# 싸웠던 몬스터 목록들 정보를 리스트에 넣기
+# 2번 몬스터 인스턴스 생성시, 리스트 안에 append 하도록 하고
+# 7번 몬스터 도감 출력시, __str__()의 정보를 출력하도록 하기
+monsters = []
+
+
+class Character:
     """
     모든 캐릭터의 모체가 되는 클래스
     """
 
-
-    def __init__(self, name, hp, power, mp, magic_power,job):
+    def __init__(self, name, hp, power, mp, magic_power, job):
         self.name = name
         self.max_hp = hp
         self.hp = hp
@@ -49,23 +62,26 @@ class Character:
         print(f"{self.name}의 공격! {other.name}에게 {damage}의 데미지를 입혔습니다.")
         if other.hp == 0:
             print(f"{other.name}이(가) 쓰러졌습니다. ")
+
     # 마법공격 사용시, mp는 1씩 줄어들게 하기
     def magic_attack(self, other):
         damage = random.randint(self.magic_power - 2, self.magic_power + 2)
         other.hp = max(other.hp - damage, 0)
         print(f"{self.name}의 마법공격! {other.name}에게 {damage}의 데미지를 입혔습니다. ")
         print("마법공격을 써서 mp가 1 줄어듭니다.")
-        #mp 1씩 줄어들도록 설정함
+        # mp 1씩 줄어들도록 설정함
         self.mp -= 1
         if other.hp == 0:
             print(f"{other.name}이(가) 쓰러졌습니다. ")
+
     def jattack(self):
         print("기본 공격")
+
     def skill(self):
         print("기본 스킬")
+
     def show_status(self):
         print(f"{self.name}의 상태: HP {self.hp}/{self.max_hp} MP {self.mp}/{self.max_mp}")
-
 
 
 # 캐릭터와 상속 관계에 있는 클래스 3개 만들기 (기사, 마법사, 도적)
@@ -73,7 +89,7 @@ class Character:
 # 마법사 클래스
 class Magician(Character):
     def __init__(self, name, hp, power, mp, magic_power, job):
-        super().__init__(name, hp, power, mp, magic_power,job)
+        super().__init__(name, hp, power, mp, magic_power, job)
         self.job = job
 
     def get_JOB(self):
@@ -87,11 +103,10 @@ class Magician(Character):
         print("스킬: [메테오]")
 
 
-
 # 기사 클래스
 class Knight(Character):
     def __init__(self, name, hp, power, mp, magic_power, job):
-        super().__init__(name, hp, power, mp, magic_power,job)
+        super().__init__(name, hp, power, mp, magic_power, job)
         self.job = job
 
     def get_JOB(self):
@@ -108,7 +123,7 @@ class Knight(Character):
 # 도적 클래스
 class Thief(Character):
     def __init__(self, name, hp, power, mp, magic_power, job):
-        super().__init__(name, hp, power, mp, magic_power,job)
+        super().__init__(name, hp, power, mp, magic_power, job)
         self.job
 
     def get_JOB(self):
@@ -120,8 +135,6 @@ class Thief(Character):
 
     def skill(self):
         print("스킬: 세비지 블로우")
-
-
 
 
 # ------------살향부 시작
@@ -136,7 +149,8 @@ while True:
     print("        4. 전투 진행 하기 ")
     print("        5. 풀레이어 정보 보기 ")
     print("        6. 몬스터 정보 보기 ")
-    print("        7. 종료 ")
+    print("        7. 몬스터 도감 보기")
+    print("        8. 종료 ")
     print("===========SPARTA RPG GAME============")
     print("숫자로 입력해주세요. >> ")
     ans = int(input())
@@ -168,7 +182,7 @@ while True:
               hp = {hp}  power = {power} mp = {mp} magic_power= {magic_power} 
             """)
                 break
-        ch = Character(name, hp, power, mp, magic_power,job)
+        ch = Character(name, hp, power, mp, magic_power, job)
         print(ch.name)
         ch.show_status()
     # 2번 선택했을 때
@@ -192,11 +206,15 @@ while True:
               hp = {m_hp}  power = {m_power}
             """)
                 break
+            else:
+                print("y/n 중 하나만 입력해주세요!")
+                continue
 
         monster = Monster(m_name, m_hp, m_power)
+        monsters.append(monster)
     # 3번 선택했을 때
     elif ans == 3:
-        if ch.job == "평민" :
+        if ch.job == "평민":
             print("전직할 직업을 골라주세요.")
             print("1. 기사  2. 도적  3. 마법사")
             number = int(input("→   "))
@@ -227,72 +245,8 @@ while True:
             print(f"이미 [{ch.job}]로 전직했습니다.")
             print("전직은 한번만 가능합니다.")
             continue
-            
-        # if number == 1:
-        #     # 전직 한번만 가능하도록 설정
-        #     if ch.job == "마법사" :
-        #         print("이미 [마법사]로 전직했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #         continue
-        #     elif ch.job == "도적":
-        #         print("이미 [도적]으로 전직했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #         continue
-        #     elif ch.job == "기사":
-        #         print("이미 [기사]로 전직 했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #         continue
-        #     else:
-        #         job = "기사"
-        #         ch = Knight(name, hp, power, mp, magic_power, job)
-        #         ch.get_JOB()
-        #         ch.jattack()
-        #         ch.skill()
-        #         continue
 
-        # elif number == 2:
-        #     #전직 한번만 가능하도록 설정
-        #     if ch.job == "기사":
-        #         print("이미 [기사]로 전직했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #         continue
-        #     elif ch.job == "마법사":
-        #         print("이미 [마법사]로 전직했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #         continue
-        #     elif ch.job == "도적":
-        #         print("이미 [도적]으로 전직 했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #     else:
-        #         job = "도적"
-        #         ch = Thief(name, hp, power, mp, magic_power, job)
-        #         ch.get_JOB()
-        #         ch.jattack()
-        #         ch.skill()
-        #         continue
-        # elif number == 3:
-        #     # 전직 한번만 가능하도록 설정
-        #     if ch.job == "기사":
-        #         print("이미 [기사]로 전직했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #         continue
-        #     elif ch.job == "도적":
-        #         print("이미 [도적]으로 전직했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #         continue
-        #     elif ch.job == "마법사":
-        #         print("이미 [마법사]로 전직했습니다.")
-        #         print("전직은 한번만 가능합니다.")
-        #         continue
-        #     else:
-        #         job = "마법사"
-        #         ch = Magician(name, hp, power, mp, magic_power, job)
-        #         ch.get_JOB()
-        #         ch.jattack()
-        #         ch.skill()
-        #         continue
-        # else:
-        #     print("번호를 다시 선택해주세요.")
+
     # 4번 전투하기 선택했을 떄
     elif ans == 4:
         print("전투를 시작합니다.")
@@ -306,8 +260,15 @@ while True:
                 print("당신이 패배했습니다. 전투를 종료합니다.")
                 break
             elif monster.hp == 0:
-                print("당신이 승리했습니다. 전투를 종료합니다. ")
-                break
+                print("축하합니다. 전투에서 승리하셨습니다.")
+                print("전투를 종료하시겠습니까? (y/n)")
+                answer = str(input())
+                if answer == 'y':
+                    print(" 전투를 종료합니다. ")
+                    break
+                elif answer == 'n':
+                    print("몬스터를 생성해주세요(2번 선택)")
+                    continue
 
             else:
                 ch.jattack()
@@ -334,8 +295,8 @@ while True:
     # 5번 플레이어 정보 보기 선택했을 때
     elif ans == 5:
         print("플레이어 이름: ", ch.name)
-        print("직업: ",ch.job)
-        print("hp:" , ch.hp)
+        print("직업: ", ch.job)
+        print("hp:", ch.hp)
         print("mp: ", ch.mp)
         print("attack: ")
         ch.jattack()
@@ -347,8 +308,17 @@ while True:
         print("몬스터 이름: ", monster.name)
         print("몬스터 HP: ", monster.hp)
         continue
-    # 7번 종료하기 눌렀을 때
+    # 7번 몬스터 도감 보기
+    # 전투했던 몬스터 정보들이 나옴
     elif ans == 7:
+        print("[몬스터 도감]")
+        print("이름", "HP", "power")
+        # monsters 리스트에 정보 저장
+        for monster in monsters:
+            print(str(monster))
+        continue
+    # 8번 종료하기 눌렀을 때
+    elif ans == 8:
         print("게임을 종료합니다.")
         break
 
